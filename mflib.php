@@ -1,4 +1,4 @@
-  <?php
+<?php
 /**
  * This class is a wrapper to the MediaFire.com API.
  *
