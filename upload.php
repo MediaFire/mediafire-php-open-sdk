@@ -149,7 +149,7 @@ class upload
         fclose($fw);
         fclose($handle);
     }
-    public function instant($sessionToken, $filename, $name)
+    public function instant($sessionToken, $filename, $name, $folderkey = null)
     {
         $filen = explode('/', $filename);
         $query = array( // sets params of the file to check
@@ -158,6 +158,7 @@ class upload
             "filename" => $name,
             "hash" => hash_file("sha256", $filename),
             "size" => filesize($filename),
+            "folder_key" => $folderkey,
             "response_format" => 'json'
         );
         if ($this->dupe != NULL) {
@@ -168,6 +169,7 @@ class upload
                 "hash" => hash_file("sha256", $filename),
                 "size" => filesize($filename),
                 "action_on_duplicate" => $this->dupe,
+                "folder_key" => $folderkey,
                 "response_format" => 'json'
             );
         } //$this->dupe != NULL
