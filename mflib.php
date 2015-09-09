@@ -496,7 +496,11 @@ class mflib
                          * Open the file and get its contents
                          */
                         $pathname = $httpOptions["file"]["path"];
-                        $basename = pathinfo($pathname, PATHINFO_BASENAME);
+                        if (isset($httpOptions["file"]["customName"])) {
+                            $basename = $httpOptions["file"]["customName"];
+                        } else {
+                            $basename = pathinfo($pathname, PATHINFO_BASENAME);
+                        }
 
                         $fileHandle = fopen($pathname, "r");
                         $contents = fread($fileHandle, filesize($pathname));
@@ -1708,6 +1712,7 @@ class mflib
         if (is_string($customName) && !empty($customName))
         {
             $httpOptions["header"][] = "x-filename: $customName";
+            $httpOptions["file"]["customName"] = $customName;
         }
 
         $query = array(
