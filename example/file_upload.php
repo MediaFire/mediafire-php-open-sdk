@@ -66,7 +66,14 @@ if ($appId == "" || $apiKey == "" || $email == "" || $password == "")
                  */
                 if ($uploadKey)
                 {
-                    var_dump($mflib->filePollUpload($sessionToken, $uploadKey));
+                    /*
+                     * Poll on a cadence until the upload is complete
+                     */
+                    do {
+                        sleep(5);
+                        $pollUpload = $mflib->filePollUpload($sessionToken, $uploadKey);
+                    } while ($pollUpload["status"] != 99);
+                    var_dump($pollUpload);
                 }
             }
             ?>
