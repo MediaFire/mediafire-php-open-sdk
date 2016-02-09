@@ -652,7 +652,12 @@ class mflib
      */
     protected function showError($errorMessage, $errorCode = "0")
     {
-        exit("Error - " . end($this->actions) . " : \"" . $errorMessage . "\" (" . $errorCode . ")");
+        $this->error = array(
+            "action" => end($this->actions),
+            "message" => $errorMessage,
+            "code" => $errorCode
+        );
+        error_log("Error - " . end($this->actions) . " : \"" . $errorMessage . "\" (" . $errorCode . ")");
     }
 
     /**
