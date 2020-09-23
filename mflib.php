@@ -564,11 +564,14 @@ class mflib
         /**
          * Parse the response body into array
          */
+        if (stripos($responseHeader, "Content-Encoding: gzip") !== false) {
+            $responseBody = gzdecode($responseBody);
+        }
         if (strpos($responseHeader, "application/json") !== false)
         {
             $data = json_decode($responseBody, true);
             $data = $data["response"];
-        } elseif (strpos($responseHeader, "text/xml") !== false)
+        } elseif ((strpos($responseHeader, "text/xml") !== false) || (strpos($responseHeader, "application/xml") !== false))
         {
             $data = self::xml2array(simplexml_load_string($responseBody));
         } else
